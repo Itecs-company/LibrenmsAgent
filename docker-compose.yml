@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  librenms-agent:
+    container_name: librenms-agent
+    build:
+      context: .
+      args:
+        # Pass the API key during build time to inject into the React app
+        - API_KEY=${API_KEY}
+    restart: unless-stopped
+    ports:
+      - "8888:80"
+    volumes:
+      - ./agent-data:/data
+    environment:
+      - TZ=UTC
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge

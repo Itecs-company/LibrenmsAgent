@@ -1,0 +1,5 @@
+{
+  "name": "LibreNMS Edge Agent",
+  "description": "A modern, lightweight agent interface for LibreNMS data collection with NAT support and AI-driven troubleshooting.",
+  "requestFramePermissions": []
+}
