@@ -42,5 +42,6 @@ RUN rm -f /etc/nginx/sites-enabled/default || true \
     && chmod +x /app/entrypoint.sh
 
 EXPOSE 80
+EXPOSE 161/udp
 
 CMD ["/app/entrypoint.sh"]

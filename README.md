@@ -27,8 +27,9 @@ View your app in AI Studio: https://ai.studio/apps/drive/1QKnpUzZu5JGChkCG0Ls8NO
    LIBRENMS_URL=https://librenms.example.com
    LIBRENMS_API_TOKEN=your_api_token
    SNMP_TARGET=librenms.example.com
+   SNMP_TRAP_PORT=162
    SNMP_COMMUNITY=public
-   SNMP_PORT=162
+   SNMP_LISTEN_PORT=161
    AGENT_INTERVAL=60
    ```
 
@@ -55,8 +56,11 @@ docker run -d -p 8888:80 --name librenms-agent \
   -e LIBRENMS_URL=https://librenms.example.com \
   -e LIBRENMS_API_TOKEN=your_api_token \
   -e SNMP_TARGET=librenms.example.com \
+  -e SNMP_TRAP_PORT=162 \
   -e SNMP_COMMUNITY=public \
-  -e SNMP_PORT=162 \
+  -e SNMP_LISTEN_PORT=161 \
   -e AGENT_INTERVAL=60 \
   librenms-agent
 ```
+
+The container exposes UDP/161 for SNMP polling in addition to port 8888 for the web UI. Ensure your host firewall allows the SNMP port and that LibreNMS uses the same community configured via `SNMP_COMMUNITY`.
