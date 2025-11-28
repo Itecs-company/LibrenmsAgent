@@ -12,3 +12,10 @@ services:
       - "8888:80"
     environment:
       - TZ=UTC
+      - LIBRENMS_URL=${LIBRENMS_URL}
+      - LIBRENMS_API_TOKEN=${LIBRENMS_API_TOKEN}
+      - SNMP_TARGET=${SNMP_TARGET}
+      - SNMP_COMMUNITY=${SNMP_COMMUNITY:-public}
+      - SNMP_PORT=${SNMP_PORT:-162}
+      - AGENT_INTERVAL=${AGENT_INTERVAL:-60}
+      - AGENT_HOSTNAME=${AGENT_HOSTNAME:-librenms-edge-agent}
