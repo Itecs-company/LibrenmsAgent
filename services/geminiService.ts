@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { LogEntry } from "../types";
 
 export const analyzeLogs = async (logs: LogEntry[], configSummary: string): Promise<string> => {
@@ -7,8 +7,8 @@ export const analyzeLogs = async (logs: LogEntry[], configSummary: string): Prom
   }
 
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-    
+    const ai = new GoogleGenerativeAI(process.env.API_KEY);
+
     // Prepare the prompt
     const logText = logs.slice(-10).map(l => `[${l.timestamp}] [${l.level.toUpperCase()}] ${l.message}`).join('\n');
     
@@ -29,12 +29,10 @@ export const analyzeLogs = async (logs: LogEntry[], configSummary: string): Prom
       Keep the response concise and formatted in Markdown.
     `;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: prompt,
-    });
+    const model = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const response = await model.generateContent(prompt);
 
-    return response.text || "No analysis could be generated.";
+    return response.response.text() || "No analysis could be generated.";
   } catch (error) {
     console.error("Gemini API Error:", error);
     return "An error occurred while contacting the AI assistant. Please try again later.";

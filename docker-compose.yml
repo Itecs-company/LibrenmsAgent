@@ -6,18 +6,18 @@ services:
     build:
       context: .
       args:
-        # Pass the API key during build time to inject into the React app
-        - API_KEY=${API_KEY}
+        API_KEY: ${API_KEY:-}
     restart: unless-stopped
     ports:
       - "8888:80"
-    volumes:
-      - ./agent-data:/data
+      - "161:161/udp"
     environment:
       - TZ=UTC
-    networks:
-      - monitoring
-
-networks:
-  monitoring:
-    driver: bridge
+      - LIBRENMS_URL=${LIBRENMS_URL}
+      - LIBRENMS_API_TOKEN=${LIBRENMS_API_TOKEN}
+      - SNMP_TARGET=${SNMP_TARGET}
+      - SNMP_TRAP_PORT=${SNMP_TRAP_PORT:-162}
+      - SNMP_COMMUNITY=${SNMP_COMMUNITY:-public}
+      - SNMP_LISTEN_PORT=${SNMP_LISTEN_PORT:-161}
+      - AGENT_INTERVAL=${AGENT_INTERVAL:-60}
+      - AGENT_HOSTNAME=${AGENT_HOSTNAME:-librenms-edge-agent}
